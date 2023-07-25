@@ -1,0 +1,23 @@
+{
+  "name": "transit-tech",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "flask-dev": "virtualenv venv && source venv/bin/activate && pnpm install && FLASK_DEBUG=1 pip3 install -r requirements.txt && python3 -m flask --app api/gpt_csv run -p 5328",
+    "next-dev": "next dev",
+    "dev": "concurrently \"pnpm run next-dev\" \"pnpm run flask-dev\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.0",
+    "eslint": "8.45.0",
+    "eslint-config-next": "13.4.12",
+    "next": "13.4.12",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-speech-recognition": "^3.10.0",
+    "regenerator-runtime": "^0.13.11"
+  }
+}
