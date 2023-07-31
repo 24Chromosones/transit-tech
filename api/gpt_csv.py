@@ -75,6 +75,7 @@ def ask_gpt():
     agent = create_csv_agent(
         OpenAI(temperature=0),
         csv_path,
+        max_iterations=10000,
     )
     # session['agent'] = 'agent'
     print("agent created", flush=True)
