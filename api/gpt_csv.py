@@ -17,6 +17,7 @@ app = Flask(__name__)
 app.secret_key = secret_key
 
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, )
+app.config['MAX_CONTENT_LENGTH'] = 64 * 1024 * 1024
 
 
 @app.route("/api/test")
@@ -57,20 +58,26 @@ def ask_gpt():
 
     csv_path = session.get('file_path')
 
-    agent = session['agent']
 
     content = request.json
     content = content['question']
     print(str(csv_path), flush=True)
     print(content, flush=True)
 
-    if agent is None:
-        agent = create_csv_agent(
-            OpenAI(temperature=0),
-            csv_path,
-        )
-        session['agent'] = 'agent'
-        print("agent created", flush=True)
+    # if session['agent'] is None:
+    #     agent = create_csv_agent(
+    #         OpenAI(temperature=0),
+    #         csv_path,
+    #     )
+    #     session['agent'] = 'agent'
+    #     print("agent created", flush=True)
+
+    agent = create_csv_agent(
+        OpenAI(temperature=0),
+        csv_path,
+    )
+    # session['agent'] = 'agent'
+    print("agent created", flush=True)
 
     if content is not None and content != "":
         return jsonify(answer=agent.run(content))
@@ -81,3 +88,4 @@ def ask_gpt():
 if __name__ == "__main__":
     # app.run(port=5328) only use for development
     serve(app, port=5328)
+    print('running', flush=True)
