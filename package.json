@@ -17,6 +17,7 @@
     "next": "13.4.12",
     "react": "18.2.0",
     "react-dom": "^18.2.0",
+    "react-simple-maps": "^3.0.0",
     "react-speech-recognition": "^3.10.0",
     "react-typing-effect": "^2.0.5",
     "regenerator-runtime": "^0.13.11"

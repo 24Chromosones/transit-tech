@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from flask import Flask, request, session, jsonify
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
+from waitress import serve
 
 
 secret_key = uuid.uuid4().hex
@@ -78,4 +79,5 @@ def ask_gpt():
 
 
 if __name__ == "__main__":
-    app.run(port=5328)
+    # app.run(port=5328) only use for development
+    serve(app, port=5328)
