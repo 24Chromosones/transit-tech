@@ -1,0 +1,11 @@
+.page {
+  background-color: #343541;
+  height: 100vh;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+}
+

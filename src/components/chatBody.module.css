@@ -1,0 +1,28 @@
+.response {
+  display: flex;
+  background-color: #434654;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+}
+
+.question {
+  display: flex;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px
+}
+
+.text {
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.image {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+

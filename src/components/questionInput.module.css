@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.input {
+  width: 95vw;
+  height: 50px;
+  border-radius: 10px;
+  border-style: None;
+  background-color: #444551;
+  box-shadow: 1px 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  text-indent: 20px;
+  font-size: 1rem;
+}
+
+.main {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+}

@@ -9,13 +9,14 @@ from flask import Flask, request, session, jsonify
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 
+
 secret_key = uuid.uuid4().hex
 
 app = Flask(__name__)
 app.secret_key = secret_key
 
-TEMP_DIR = "temp_uploads"
-agent = None
+app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, )
+
 
 @app.route("/api/test")
 def test():
@@ -32,11 +33,14 @@ def receive_file():
     if file.filename == "":
         return "No selected file", 400
 
-    temp_dir = os.path.join(os.path.dirname(__file__), TEMP_DIR)
+    unique_id = str(uuid.uuid4())
+
+    temp_dir = os.path.join(os.path.dirname(__file__), "temp_files", unique_id)
     os.makedirs(temp_dir, exist_ok=True)
 
     file_path = os.path.join(temp_dir, file.filename)
     session['file_path'] = file_path
+    session['agent'] = None
     file.save(file_path)
 
     return "received", 200
@@ -47,12 +51,12 @@ def ask_gpt():
     if request.json['question'] == 'test':
         return jsonify(answer='testing alot of words testing alot of words testing alot of words testing alot of words testing alot of words testing alot of words testing alot of words testing alot of words testing alot of words ')
 
-    global agent
-
     load_dotenv()
     os.getenv("OPENAI_API_KEY")
 
     csv_path = session.get('file_path')
+
+    agent = session['agent']
 
     content = request.json
     content = content['question']
@@ -64,6 +68,7 @@ def ask_gpt():
             OpenAI(temperature=0),
             csv_path,
         )
+        session['agent'] = 'agent'
         print("agent created", flush=True)
 
     if content is not None and content != "":

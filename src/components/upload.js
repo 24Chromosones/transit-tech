@@ -1,9 +1,13 @@
 "use client"
 
 import React, { useState } from "react";
+import styles from './upload.module.css'
 
 const Upload = () => {
     const [selectedFile, setSelectedFile] = useState(null);
+
+    const [uploadStyle, setUploadStyle] = useState(styles.uploader)
+    const [promptSubmit, setPromptSubmit] = useState(styles.submit)
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -25,26 +29,32 @@ const Upload = () => {
 
                 if (response.ok) {
                     console.log("File uploaded successfully!");
+                    setUploadStyle(styles.uploaded)
+                    setPromptSubmit(styles.promptSubmit)
                     // Handle the response from the server if needed
                 } else {
                     console.error("Error uploading file:", response.status, response.statusText);
+                    alert("Error uploading file")
                     // Handle error, if any
                 }
             } catch (error) {
                 console.error("Error uploading file:", error);
+                alert("Error uploading file")
                 // Handle error, if any
             }
         } else {
             console.error("No file selected.");
+            alert("No file selected.")
             // Handle no file selected case
         }
     };
 
     return (
-        <div>
+        <div className={styles.main}>
             <form onSubmit={handleFileUpload}>
-                <input type="file" onChange={handleFileChange} />
-                <button type="submit">Upload</button>
+                <label htmlFor={"csv_input"}/>
+                <input className={uploadStyle} id={"csv_input"} type="file" onChange={handleFileChange} title={''} />
+                <button className={promptSubmit} type="submit">Upload</button>
             </form>
         </div>
     );

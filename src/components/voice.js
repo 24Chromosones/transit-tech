@@ -1,12 +1,13 @@
 "use client"
 
 import 'regenerator-runtime/runtime'
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
+const Voice = ({setVoiceInput}) => {
 
+    const [speechRecognitionSupported, setSpeechRecognitionSupported] = useState(null)
 
-const Voice = () => {
     const {
         transcript,
         listening,
@@ -14,9 +15,23 @@ const Voice = () => {
         browserSupportsSpeechRecognition
     } = useSpeechRecognition();
 
-    if (!browserSupportsSpeechRecognition) {
-        return <span>Browser doesn&apos;t support speech recognition.</span>;
+    useEffect(() => {
+        setSpeechRecognitionSupported(browserSupportsSpeechRecognition)
+    }, [browserSupportsSpeechRecognition])
+
+
+    useEffect(() => {
+        setVoiceInput(transcript);
+    }, [transcript, setVoiceInput])
+
+
+    if (speechRecognitionSupported === null) return null
+
+    if (!speechRecognitionSupported) {
+        return <span>Browser does not support speech recognition.</span>
     }
+
+
 
     return (
         <div>
@@ -24,7 +39,6 @@ const Voice = () => {
             <button onClick={SpeechRecognition.startListening}>Start</button>
             <button onClick={SpeechRecognition.stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>
-            <p>{transcript}</p>
         </div>
     );
 };
