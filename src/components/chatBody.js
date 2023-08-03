@@ -7,6 +7,7 @@ import Image from "next/image";
 import person from "@/assets/person.png"
 import transit from "@/assets/transit-tech-logo.png"
 import TypingText from "@/components/typingText";
+import WorldMap from "@/components/worldMap";
 
 
 const ChatBox = (props) => {
@@ -30,6 +31,14 @@ const ChatBox = (props) => {
             </div>
         )
     }
+    if (props.type === "map") {
+        return(
+            <div className={styles.response}>
+                <Image className={styles.image} src={transit} alt={'User'} width={35} height={35}/>
+                <WorldMap latitude={props.body.latitude} longitude={props.body.longitude} />
+            </div>
+        )
+    }
 }
 
 const ChatBody = () => {
@@ -44,15 +53,21 @@ const ChatBody = () => {
 
     };
 
+    const addToMapList = (coordinates) => {
+        setChat((prevState => [...prevState, {type:'map', body: coordinates}]))
+    }
+
     return (
         <div>
-            {chat.map((obj, index) => {
-                    return(
-                        <ChatBox key={index} type={obj.type} body={obj.body}/>
-                    )
+            <div className={styles.chat}>
+                {chat.map((obj, index) => {
+                return (
+                    <ChatBox key={index} type={obj.type} body={obj.body}/>
+                    );
                 })
-            }
-            <QuestionInput addToInputList={addToInputList} addToResponseList={addToResponseList}/>
+                }
+            </div>
+            <QuestionInput addToInputList={addToInputList} addToResponseList={addToResponseList} addToMapList={addToMapList} />
         </div>
     );
 };

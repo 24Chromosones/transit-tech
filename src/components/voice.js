@@ -3,6 +3,7 @@
 import 'regenerator-runtime/runtime'
 import React, {useEffect, useState} from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import styles from "./voice.module.css"
 
 const Voice = ({setVoiceInput}) => {
 
@@ -34,8 +35,8 @@ const Voice = ({setVoiceInput}) => {
 
 
     return (
-        <div>
-            <p>Microphone: {listening ? 'on' : 'off'}</p>
+        <div >
+            <p className={styles.main}>Microphone: {listening ? 'on' : 'off'}</p>
             <button onClick={SpeechRecognition.startListening}>Start</button>
             <button onClick={SpeechRecognition.stopListening}>Stop</button>
             <button onClick={resetTranscript}>Reset</button>

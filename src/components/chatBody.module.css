@@ -5,6 +5,7 @@
   padding-left: 20px;
   padding-right: 20px;
   padding-bottom: 10px;
+  color: white;
 }
 
 .question {
@@ -12,13 +13,15 @@
   padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
-  padding-bottom: 10px
+  padding-bottom: 10px;
+  color: white;
 }
 
 .text {
   padding-left: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
+
 }
 
 .image {
@@ -26,3 +29,13 @@
   margin-bottom: 10px;
 }
 
+.chat {
+  padding-bottom: 200px;
+  width: 100vw;
+}
+
+.map {
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

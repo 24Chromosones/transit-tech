@@ -1,15 +1,18 @@
 import os
 import uuid
+import traceback
 
 from dotenv import load_dotenv
 from flask import Flask, request, session, jsonify, current_app
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 from waitress import serve
+import re
 
 secret_key = uuid.uuid4().hex
 
 app = Flask(__name__)
+print('running', flush=True)
 app.secret_key = secret_key
 
 app.config['UPLOAD_FOLDER'] = os.path.join(app.root_path, )
@@ -72,8 +75,38 @@ def ask_gpt():
     else:
         return "Invalid question"
 
+@app.route("/api/get-map", methods=['POST'])
+def get_map():
+    content = request.json['question']
+    agent = current_app.agent
+
+    map_response = agent.run(content)
+    print(map_response, flush=True)
+
+    try:
+        # Use regular expression to find latitude and longitude in the input text
+        # First, try to find the format "34.149917 latitude and -118.616783 longitude."
+        pattern1 = r'(-?\d+\.\d+)\s*latitude\s*and\s*(-?\d+\.\d+)\s*longitude\.'
+        match1 = re.search(pattern1, map_response)
+
+        # If the first format is not found, try to find the format "34.10155, -118.336883."
+        if not match1:
+            pattern2 = r'(-?\d+\.\d+),\s*(-?\d+\.\d+)'
+            match2 = re.search(pattern2, map_response)
+            if not match2:
+                raise ValueError
+            lat, lon = map(float, match2.groups())
+        else:
+            lat, lon = map(float, match1.groups())
+
+        return jsonify(latitude=lat, longitude=lon)
+
+    except Exception as e:
+        traceback.print_exc()
+        return "Error extracting coordinates. Please enter a valid input."
+
 
 if __name__ == "__main__":
     # app.run(port=5328) only use for development
     serve(app, port=5328)
-    print('running', flush=True)
+

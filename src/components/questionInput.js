@@ -5,7 +5,7 @@ import React, {useEffect, useState, useCallback} from "react";
 import Upload from "@/components/upload";
 import Voice from "@/components/voice";
 
-const QuestionInput = ({addToInputList, addToResponseList}) => {
+const QuestionInput = ({addToInputList, addToResponseList, addToMapList}) => {
 
     const [question, setQuestion] = useState("");
 
@@ -27,6 +27,10 @@ const QuestionInput = ({addToInputList, addToResponseList}) => {
         addToResponseList(response);
     }
 
+    const addMap = (coord) => {
+        addToMapList(coord)
+    }
+
 
 
     const handleSubmit = async (event) => {
@@ -36,22 +40,40 @@ const QuestionInput = ({addToInputList, addToResponseList}) => {
 
         const fetchData = async () => {
             try {
-                const url = "/api/ask-gpt";
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({question}),
-                });
+                if (question.includes("can you show me where it is")) {
+                    const url = "/api/get-map";
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({question})
+                    })
 
-                if (!response.ok) {
-                    throw new Error("Request failed with status: " + response.status);
+                    const data = await response.json()
+                    console.log(data)
+                    addToMapList(data)
+
+                } else {
+                    const url = "/api/ask-gpt";
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({question}),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Request failed with status: " + response.status);
+                    }
+
+
+                    const data = await response.json();
+                    addResponse(data)
+
                 }
 
-
-                const data = await response.json();
-                addResponse(data)
 
             } catch (error) {
                 console.error("Error fetching data:", error);

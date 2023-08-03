@@ -16,10 +16,12 @@
   border-radius: 20px;
   border-style: none;
   background-color: #45c9ff;
+  
 }
 
 .uploader {
   font-weight: bold;
+  color: white
 }
 
 .uploaded {

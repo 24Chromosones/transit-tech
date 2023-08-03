@@ -5,7 +5,7 @@ import 'regenerator-runtime/runtime'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
-  title: 'Transit TEch',
+  title: 'Transit Tech',
   description: 'AI Tool for LA Metro',
 }
 
