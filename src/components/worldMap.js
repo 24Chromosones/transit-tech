@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import {GoogleMap, LoadScript, MarkerF} from '@react-google-maps/api';
+import {GoogleMap, LoadScript, MarkerF, useJsApiLoader} from '@react-google-maps/api';
 import styles from './worldMap.module.css'
 
 const WorldMap = (props) => {
@@ -18,16 +18,16 @@ const WorldMap = (props) => {
 
     return (
         <div className={styles.map}>
-            <LoadScript googleMapsApiKey={process.env.googleMapsAPI}>
-                <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={center}
-                    zoom={10}
-                    controlSize={5}
-                >
-                    <MarkerF position={center}/>
-                </GoogleMap>
-            </LoadScript>
+
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={center}
+                zoom={10}
+                controlSize={5}
+            >
+                <MarkerF position={center}/>
+            </GoogleMap>
+
         </div>
     )
 

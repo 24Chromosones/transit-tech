@@ -8,6 +8,7 @@ import person from "@/assets/person.png"
 import transit from "@/assets/transit-tech-logo.png"
 import TypingText from "@/components/typingText";
 import WorldMap from "@/components/worldMap";
+import {LoadScript} from "@react-google-maps/api";
 
 
 const ChatBox = (props) => {
@@ -59,6 +60,7 @@ const ChatBody = () => {
 
     return (
         <div>
+            <LoadScript googleMapsApiKey={process.env.googleMapsAPI}/>
             <div className={styles.chat}>
                 {chat.map((obj, index) => {
                 return (
