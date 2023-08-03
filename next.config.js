@@ -12,6 +12,9 @@ const nextConfig = {
             },
         ]
     },
+    env : {
+        googleMapsAPI: process.env.googleMapsAPI
+    },
 }
 
 module.exports = nextConfig
