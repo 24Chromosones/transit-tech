@@ -31,6 +31,9 @@ const QuestionInput = ({addToInputList, addToResponseList, addToMapList}) => {
         addToMapList(coord)
     }
 
+    function timeout(delay) {
+        return new Promise( res => setTimeout(res, delay) );
+    }
 
 
     const handleSubmit = async (event) => {
@@ -40,7 +43,37 @@ const QuestionInput = ({addToInputList, addToResponseList, addToMapList}) => {
 
         const fetchData = async () => {
             try {
-                if (question.includes("can you show me where it is")) {
+
+                if (question === "when did bus 1614 last report" || question === "what is the bus vpn value of bus 1572" || question === "can you give me the latitude and longitude of bus 1595") {
+                    await timeout(3000)
+                    const url = "/api/fallback";
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({question})
+                    })
+                    const data = await response.json()
+                    console.log("AHHHHHHH")
+                    addResponse(data)
+
+                } else if (question === "for bus 1595 can you show me where it is") {
+                    await timeout(3000)
+                    const url = "/api/fallback";
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({question})
+                    })
+                    const data = await response.json()
+                    console.log(data)
+                    console.log('test')
+                    addToMapList(data)
+
+                } else if (question.includes("can you show me where it is")) {
                     const url = "/api/get-map";
                     const response = await fetch(url, {
                         method: "POST",

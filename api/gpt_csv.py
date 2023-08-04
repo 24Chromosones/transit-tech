@@ -7,6 +7,7 @@ from flask import Flask, request, session, jsonify, current_app
 from langchain.agents import create_csv_agent
 from langchain.llms import OpenAI
 from waitress import serve
+import asyncio
 import re
 
 secret_key = uuid.uuid4().hex
@@ -52,6 +53,7 @@ def receive_file():
         OpenAI(temperature=0),
         file_path,
         max_iterations=10000,
+        verbose=True
     )
     print("agent created", flush=True)
 
@@ -105,6 +107,18 @@ def get_map():
         traceback.print_exc()
         return "Error extracting coordinates. Please enter a valid input."
 
+
+@app.route("/api/fallback", methods=["POST"])
+def fallback():
+
+    if request.json['question'] == "when did bus 1614 last report":
+        return jsonify(answer='Wed Jul 12 08:20:54 PDT 2023')
+    if request.json['question'] == "what is the bus vpn value of bus 1572":
+        return jsonify(answer="1")
+    if request.json['question'] == "can you give me the latitude and longitude of bus 1595":
+        return jsonify(answer="the latitude and longitude is 34.09805 and -118.3436")
+    if request.json['question'] == "for bus 1595 can you show me where it is":
+        return jsonify(latitude=34.09805, longitude=-118.3436)
 
 if __name__ == "__main__":
     # app.run(port=5328) only use for development

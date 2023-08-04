@@ -15,6 +15,7 @@ const ChatBox = (props) => {
 
 
     if (props.type === "response") {
+        console.log('bruh')
         return(
             <div className={styles.response}>
                 <Image className={styles.image} src={transit} alt={'User'} width={35} height={35}/>
