@@ -10,3 +10,10 @@
   color: white;
 }
 
+
+.announcement {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  color: red;
+}
